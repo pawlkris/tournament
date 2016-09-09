@@ -10,9 +10,17 @@ CREATE TABLE players ( id SERIAL PRIMARY KEY,
                        name TEXT);
 
 CREATE TABLE matches ( mid SERIAL PRIMARY KEY,
-                       winner INTEGER,
-                       loser INTEGER);
+                       winner INT REFERENCES players(id),
+                       loser INT REFERENCES players(id));
 
-CREATE TABLE standings (  player SERIAL PRIMARY KEY,
-                          wins INTEGER,
-                          matches INTEGER);
+CREATE OR REPLACE VIEW STANDINGS AS
+    SELECT  id,
+            name,
+            SUM(CASE WHEN players.id = matches.winner THEN 1 ELSE 0 END) AS wins,
+            SUM(CASE WHEN players.id = matches.winner OR players.id = matches.loser THEN 1 ELSE 0 END) AS match_count
+    FROM players
+    RIGHT JOIN matches
+    ON players.id = matches.winner OR players.id = matches.loser
+    GROUP BY players.id
+    ORDER BY wins DESC,
+             match_count ASC;

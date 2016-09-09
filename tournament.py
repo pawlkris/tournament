@@ -15,8 +15,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     DB = connect()
     c = DB.cursor()
-    c.execute("DELETE FROM matches")
-    c.execute("UPDATE standings SET wins=0, matches=0")
+    c.execute("TRUNCATE matches")
     DB.commit()
     DB.close()
 
@@ -49,7 +48,6 @@ def registerPlayer(name):
     DB = connect()
     c = DB.cursor()
     c.execute("INSERT INTO players (name) VALUES (%s)", (name,))
-    c.execute("INSERT INTO standings (wins, matches) VALUES (%s,%s)", (0,0,))
     DB.commit()
     DB.close()
 
@@ -68,16 +66,11 @@ def playerStandings():
     """
     DB = connect()
     c = DB.cursor()
-    c.execute("""SELECT players.id, players.name, COALESCE(wins, 0), COALESCE(matches, 0)
-                FROM standings
-                RIGHT JOIN players
-                ON standings.player = players.id
-                ORDER BY wins DESC""")
+    c.execute("""SELECT * FROM STANDINGS""")
     ranks = []
     ranks = c.fetchall()
-    return ranks
     DB.close()
-
+    return ranks
 
 
 def reportMatch(winner, loser):
@@ -90,8 +83,6 @@ def reportMatch(winner, loser):
     DB = connect()
     c = DB.cursor()
     c.execute("INSERT INTO matches (winner, loser) VALUES (%s,%s)", (winner,loser,))
-    c.execute("UPDATE standings SET wins = wins+%s, matches = matches+%s WHERE player = %s", (1,1,winner,))
-    c.execute("UPDATE standings SET matches = matches+%s WHERE player = %s", (1,loser,))
     DB.commit()
     DB.close()
 
