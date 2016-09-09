@@ -1,2 +1,0 @@
-# tournament
-tournament project
