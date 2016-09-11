@@ -59,22 +59,14 @@ E)Type "\c tournament" to connect to database and then type "\i tournament.sql" 
 
 F)Exit psql by typing "\q"
 
-G)Execute the test script the typing "python tournament_test.py"
-
-
-D)Use the functions in the script to simulate a tournament. The functions are:
-
-
-
 
 3)Testing
 ----------
 
-The files also include tournament_test.py, which was created by Udacity for the purpose of verifying code fulfils Udacity’s requirements. 
-I’ve included it in the case it might be helpful to test any revisions made to the code in the future. In order to execute the test
-just type "python tournament_test.py" into the virtual machine.
+The files also include tournament_test.py, which was created by Udacity for the purpose of verifying code fulfils Udacity’s requirements. I’ve included it in the case it might be helpful to test any revisions made to the code in the future. In order to execute the test just type "python tournament_test.py" into the virtual machine.
 
 
 4)Acknowledgements
+------------------
 
 Thanks to harry_staley, Udacity Mentor who wrote the initial version of the VIEW found in tournament.sql as I was beginning to go crazy. Udacity also created the tournament_test.py file.
